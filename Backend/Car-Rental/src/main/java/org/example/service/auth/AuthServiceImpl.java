@@ -6,6 +6,7 @@ import org.example.enums.UserRole;
 import org.example.model.SignupRequestDto;
 import org.example.model.UserDto;
 import org.example.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class AuthServiceImpl implements  AuthService {
         UserEntity user=new UserEntity();
         user.setName(signupRequestDto.getName());
         user.setEmail(signupRequestDto.getEmail());
-        user.setPassword(signupRequestDto.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequestDto.getPassword()));
         user.setUserRole(UserRole.CUSTOMESRS);
         UserEntity createdUser = userRepository.save(user);
         UserDto userDto=new UserDto();
